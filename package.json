@@ -29,6 +29,7 @@
     "express": "~4.9.3",
     "express-handlebars": "~1.1.0",
     "immutable": "^3.6.2",
+    "immutable-history": "^0.2.0",
     "node-jsx": "~0.12.0",
     "react": "^0.12.1",
     "react-bootstrap": "^0.13.0"

@@ -47,3 +47,12 @@ body {
     padding: 6px;
     border: none;
 }
+
+.sheet-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 50px;
+    overflow: auto;
+}

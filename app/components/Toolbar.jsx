@@ -20,8 +20,9 @@ var Toolbar = React.createClass({
                     <Button onClick={this._addStyle({textAlign: 'center'})}>Center</Button>
                     <Button onClick={this._addStyle({textAlign: 'right'})}>Right</Button>
                 </ButtonGroup>
-                    <Button onClick={this._addStyle({fontWeight: 'bold'})}>Bold</Button>
-                    <Button onClick={this._addStyle({fontStyle: 'italic'})}>Italics</Button>
+                <Button onClick={this._addStyle({fontWeight: 'bold'})}>Bold</Button>
+                <Button onClick={this._addStyle({fontStyle: 'italic'})}>Italics</Button>
+                <Button onClick={this.props.undo}>Undo</Button>
             </ButtonToolbar>
         );
     },

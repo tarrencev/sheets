@@ -7,7 +7,7 @@ var Cell = require('./Cell.jsx');
 var Table = require('react-bootstrap/Table');
 var PureRenderMixin = require('react/addons').PureRenderMixin;
 
-var SheetApp = React.createClass({
+var Sheet = React.createClass({
 
     mixins: [PureRenderMixin],
 
@@ -33,4 +33,4 @@ var SheetApp = React.createClass({
     }
 });
 
-module.exports = SheetApp;
+module.exports = Sheet;
