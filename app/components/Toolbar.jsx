@@ -36,18 +36,15 @@ var Toolbar = React.createClass({
 
     _updateSelectedCells: function(delta) {
         var deltaKey = Object.keys(delta)[0];
-        var selectedCells = this.props.selectedCells;
+        var sheetData = this.props.sheetData;
 
-        // Perform a batch mutation to avoid creating a bunch of immutables
-        var newRows = this.props.rows.withMutations(function(rows) {
-            selectedCells.forEach(function(value, key) {
-                var x = selectedCells.get(key).get('x');
-                var y = selectedCells.get(key).get('y');
-                rows.setIn([y, x, deltaKey], delta[deltaKey]);
+        sheetData.update(function(sheetData) {
+            sheetData.get('selectedCells').forEach(function(cell) {
+                sheetData = sheetData.setIn(['rows', cell.get('y'), cell.get('x'), deltaKey], delta[deltaKey]);
             });
-        });
 
-        this.props.rows = newRows;
+            return sheetData;
+        });
     }
 });
 

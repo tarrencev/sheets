@@ -15,9 +15,9 @@ module.exports = function(app) {
 
         var rows = [];
 
-        for (var y = 0; y < 20; y++) {
+        for (var y = 0; y < 1; y++) {
             var cells = [];
-            for(var x = 0; x < 10; x++) {
+            for(var x = 0; x < 2; x++) {
                 cells.push({
                     key: '' + y + x,
                     x: x,
@@ -37,7 +37,7 @@ module.exports = function(app) {
         var initialData = {
             rows: rows,
             selectedCells: {},
-            editingCellKeys: {}
+            editingCells: {}
         };
 
         var markup = React.renderToString(

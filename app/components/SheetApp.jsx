@@ -14,13 +14,13 @@ var SheetApp = React.createClass({
 
     componentWillMount: function() {
         this.setState({
-            history: new History(this.props.sheetData, this._cursorChange)
+            history: new History(this.props.sheetData, this._cursorChange),
         });
     },
 
     _cursorChange: function(cursor) {
         this.setState({
-            sheetDataCursor: cursor
+            sheetData: cursor
         });
     },
 
@@ -34,15 +34,11 @@ var SheetApp = React.createClass({
             <div>
                 <Toolbar
                     undo={this._undo}
-                    rows={this.state.sheetDataCursor.get('rows')}
-                    selectedCells={this.state.sheetDataCursor.get('selectedCells')}
-                    editingCellKeys={this.state.sheetDataCursor.get('editingCellKeys')}
+                    sheetData={this.state.sheetData}
                 />
                 <div className='sheet-container'>
                     <Sheet
-                        rows={this.state.sheetDataCursor.get('rows')}
-                        selectedCells={this.state.sheetDataCursor.get('selectedCells')}
-                        editingCellKeys={this.state.sheetDataCursor.get('editingCellKeys')}
+                        sheetData={this.state.sheetData}
                     />
                 </div>
             </div>

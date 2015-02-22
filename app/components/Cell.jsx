@@ -6,7 +6,6 @@ var React = require('react');
 var Immutable = require('immutable');
 var DOUBLE_CLICK_WINDOW_MS = 500;
 var PureRenderMixin = require('react/addons').PureRenderMixin;
-var utils = require('../utils');
 
 var SheetCell = React.createClass({
 
@@ -19,13 +18,12 @@ var SheetCell = React.createClass({
     },
 
     shouldComponentUpdate: function(nextProps) {
-        return nextProps.selectedCells.has(utils.getCellHash(nextProps.cell)) ||
-                this.props.selectedCells.has(utils.getCellHash(this.props.cell));
+        return !Immutable.is(this.props.cell, nextProps.cell);
     },
 
     render: function() {
-        var isSelected = this.props.selectedCells.has(utils.getCellHash(this.props.cell));
-        var isEditing = this.props.editingCellKeys.has(this.props.cell.get('key'));
+        var isSelected = this.props.cell.get('isSelected');
+        var isEditing = this.props.cell.get('isEditing');
 
         var cellStyle = {
             border: isSelected ? '2px solid #7BA0FF' : 'none',
@@ -63,25 +61,15 @@ var SheetCell = React.createClass({
     },
 
     _handleClick: function(ev) {
-
         var curClickDate = Date.now();
 
-        if (!this.props.selectedCells.has(utils.getCellHash(this.props.cell))) {
-
-            if (ev.metaKey) {
-                this.props.selectedCells = this.props.selectedCells.set(utils.getCellHash(this.props.cell), Immutable.Map({
-                    x: this.props.cell.get('x'),
-                    y: this.props.cell.get('y')
-                }));
-            } else {
-                this.props.selectedCells = this.props.selectedCells.clear();
-                this.props.selectedCells = this.props.selectedCells.set(utils.getCellHash(this.props.cell), Immutable.Map({
-                    x: this.props.cell.get('x'),
-                    y: this.props.cell.get('y')
-                }));
-            }
-        } else if (!this.props.editingCellKeys.contains(this.props.cell.get('key')) && curClickDate - this.state.lastClickDate < DOUBLE_CLICK_WINDOW_MS) {
-            this.props.editingCellKeys = this.props.editingCellKeys.set(this.props.cell.get('key'), true);
+        if (this.props.cell.get('isSelected') && curClickDate - this.state.lastClickDate < DOUBLE_CLICK_WINDOW_MS) {
+            console.log('set editing');
+            this.props.onCellEditing(this.props.cell);
+        } else if (ev.metaKey) {
+            this.props.onCellSelection(this.props.cell, true);
+        } else {
+            this.props.onCellSelection(this.props.cell);
         }
 
         this.setState({
@@ -90,7 +78,7 @@ var SheetCell = React.createClass({
     },
 
     _handleChange: function(ev) {
-        this.props.cell = this.props.cell.set('value', ev.target.value);
+        this.props.cell.update('value', function() { return ev.target.value; });
     },
 
     _handleKeyUp: function(ev) {
