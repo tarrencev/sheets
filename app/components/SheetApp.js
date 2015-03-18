@@ -37,7 +37,7 @@ class SheetApp extends React.Component {
         return (
             <div>
                 <Toolbar
-                    undo={this._undo}
+                    undo={this._undo.bind(this)}
                     sheetData={this.state.sheetData}
                 />
                 <div className='sheet-container'>
