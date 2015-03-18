@@ -42,42 +42,40 @@ class Sheet extends React.Component {
 
     _cellSelectionHandler(cell, isMultiSelect) {
         let sheetData = this.props.sheetData;
-        let self = this;
 
         if (cell.get('isSelected')) {
             return;
         }
 
-        sheetData.update(function(sheetData) {
+        sheetData.update(sheetData => {
             if (!isMultiSelect) {
-                sheetData.get('selectedCells').forEach(function(cell) {
+                sheetData.get('selectedCells').forEach(cell => {
                     sheetData = sheetData.setIn(['rows', cell.get('y'), cell.get('x'), 'isSelected'], false);
                     sheetData = sheetData.setIn(['rows', cell.get('y'), cell.get('x'), 'isEditing'], false);
                 });
                 sheetData = sheetData.set('selectedCells', Immutable.Map());
             }
             sheetData = sheetData.setIn(['rows', cell.get('y'), cell.get('x'), 'isSelected'], true);
-            sheetData = sheetData.setIn(['selectedCells', self._getCellHash(cell)], cell);
+            sheetData = sheetData.setIn(['selectedCells', this._getCellHash(cell)], cell);
 
             return sheetData;
-        });
+        }.bind(this));
     }
 
 
     _cellEditingHandler(cell) {
         let sheetData = this.props.sheetData;
-        let self = this;
 
-        sheetData.update(function(sheetData) {
-            sheetData.get('editingCells').forEach(function(cell) {
+        sheetData.update(sheetData => {
+            sheetData.get('editingCells').forEach(cell => {
                 sheetData = sheetData.setIn(['rows', cell.get('y'), cell.get('x'), 'isEditing'], false);
             });
 
             sheetData = sheetData.set('isEditing', Immutable.Map());
             sheetData = sheetData.setIn(['rows', cell.get('y'), cell.get('x'), 'isEditing'], true);
-            sheetData = sheetData.setIn(['editingCells', self._getCellHash(cell)], cell);
+            sheetData = sheetData.setIn(['editingCells', this._getCellHash(cell)], cell);
             return sheetData;
-        });
+        }.bind(this));
     }
 };
 
