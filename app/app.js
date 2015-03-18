@@ -1,10 +1,10 @@
 'use strict';
 
-var React = require('react');
-var Immutable = require('immutable');
-var SheetApp = require('./components/SheetApp.js');
+import React from 'react';
+import Immutable from 'immutable';
+import SheetApp from './components/SheetApp.js';
 
-var initialData = Immutable.fromJS(JSON.parse(document.getElementById('initial-state').innerHTML));
+let initialData = Immutable.fromJS(JSON.parse(document.getElementById('initial-state').innerHTML));
 
 React.render(
 	<SheetApp sheetData={initialData} />,
