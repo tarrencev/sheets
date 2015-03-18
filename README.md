@@ -6,7 +6,7 @@ PoC of Spreadsheet implementation using Reactjs and Immutablejs
 
 Install dependancies via `npm`:
 
-`npm install react-d3`
+`npm install`
 
 You'll need Babel installed globally:
 
