@@ -15,7 +15,7 @@
     "minor": "node Makefile.js minor",
     "major": "node Makefile.js major",
     "watch": "watchify app/app.js -o public/js/bundle.js -v",
-    "browserify": "browserify app/app.js | uglifyjs > public/js/bundle.js",
+    "browserify": "babel app | uglifyjs > public/js/bundle.js",
     "build": "npm run browserify ",
     "start": "npm run watch & nodemon server.js"
   },
@@ -32,7 +32,7 @@
     "immutable": "^3.6.2",
     "immutable-history": "^0.2.0",
     "node-jsx": "~0.12.0",
-    "react": "^0.12.1",
+    "react": "^0.13.0",
     "react-bootstrap": "^0.13.0"
   },
   "devDependencies": {

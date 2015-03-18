@@ -8,6 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
+require("babel/register");
 var express = require('express'),
 	path = require('path');
 
