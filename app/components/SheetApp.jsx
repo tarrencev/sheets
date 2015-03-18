@@ -9,7 +9,7 @@ import Toolbar from './Toolbar.jsx';
 class SheetApp extends React.Component {
 
     constructor(props) {
-        super(props)
+        super(props);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -34,7 +34,6 @@ class SheetApp extends React.Component {
     }
 
     render() {
-
         return (
             <div>
                 <Toolbar

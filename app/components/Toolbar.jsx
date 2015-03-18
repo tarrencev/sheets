@@ -1,21 +1,22 @@
 'use strict';
 
-var React = require('react');
-var Immutable = require('immutable');
-var ButtonToolbar = require('react-bootstrap/ButtonToolbar');
-var ButtonGroup = require('react-bootstrap/ButtonGroup');
-var Button = require('react-bootstrap/Button');
-var PureRenderMixin = require('react/addons').PureRenderMixin;
+import React from 'react';
+import Immutable from 'immutable';
+import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import Button from 'react-bootstrap/Button';
 
-var Toolbar = React.createClass({
+class Toolbar extends React.Component {
 
-    mixins: [PureRenderMixin],
+    constructor(props) {
+        super(props);
+    }
 
-    shouldComponentUpdate: function(nextProps) {
+    shouldComponentUpdate(nextProps) {
         return !Immutable.is(this.props.sheetData, nextProps.sheetData);
-    },
+    }
 
-    render: function() {
+    render() {
         return (
             <ButtonToolbar>
                 <ButtonGroup>
@@ -28,16 +29,16 @@ var Toolbar = React.createClass({
                 <Button onClick={this.props.undo}>Undo</Button>
             </ButtonToolbar>
         );
-    },
+    }
 
-    _addStyle: function(delta) {
+    _addStyle(delta) {
         var me = this;
         return function() {
             me._updateSelectedCells(delta);
         };
-    },
+    }
 
-    _updateSelectedCells: function(delta) {
+    _updateSelectedCells(delta) {
         var deltaKey = Object.keys(delta)[0];
         var sheetData = this.props.sheetData;
 
@@ -49,6 +50,6 @@ var Toolbar = React.createClass({
             return sheetData;
         });
     }
-});
+};
 
 module.exports = Toolbar;
