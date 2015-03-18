@@ -2,7 +2,7 @@
 
 var React = require('react');
 var Immutable = require('immutable');
-var SheetApp = require('./components/SheetApp.jsx');
+var SheetApp = require('./components/SheetApp.js');
 
 var initialData = Immutable.fromJS(JSON.parse(document.getElementById('initial-state').innerHTML));
 

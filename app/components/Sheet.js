@@ -2,8 +2,8 @@
 
 import React from 'react';
 import Immutable from 'immutable';
-import Cell from './Cell.jsx';
-import RowCell from './RowCell.jsx';
+import Cell from './Cell.js';
+import RowCell from './RowCell.js';
 import Table from 'react-bootstrap/Table';
 
 class Sheet extends React.Component {
@@ -16,8 +16,8 @@ class Sheet extends React.Component {
         return <Cell
                     key={cell.get('x') + ':' + cell.get('y')}
                     cell={cell}
-                    onCellSelection={this._cellSelectionHandler}
-                    onCellEditing={this._cellEditingHandler}
+                    onCellSelection={this._cellSelectionHandler.bind(this)}
+                    onCellEditing={this._cellEditingHandler.bind(this)}
                 />;
     }
 
@@ -41,6 +41,7 @@ class Sheet extends React.Component {
     }
 
     _cellSelectionHandler(cell, isMultiSelect) {
+        console.log('select');
         var sheetData = this.props.sheetData;
         var me = this;
 

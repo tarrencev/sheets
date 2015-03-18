@@ -5,7 +5,7 @@
 
 var React = require('react');
 var Immutable = require('immutable');
-var SheetApp = require('./app/components/SheetApp.jsx');
+var SheetApp = require('./babeledapp/components/SheetApp.js');
 
 /**
  * Application routes

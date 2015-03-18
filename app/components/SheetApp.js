@@ -3,8 +3,8 @@
 import React from 'react';
 import Immutable from 'immutable';
 import History from 'immutable-history';
-import Sheet from './Sheet.jsx';
-import Toolbar from './Toolbar.jsx';
+import Sheet from './Sheet.js';
+import Toolbar from './Toolbar.js';
 
 class SheetApp extends React.Component {
 
