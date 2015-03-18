@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Immutable from 'immutable';
+import Jexl from 'Jexl';
 
 const DOUBLE_CLICK_WINDOW_MS = 500;
 
@@ -84,9 +85,12 @@ class SheetCell extends React.Component {
         }
 
         let value = ev.target.value;
-        if (value && value.substring(0,1) === '=') {
-            // @tvanas: Implement a safe way to execute client generated code
-            this.props.cell.update('value', function() { return eval(ev.target.value.slice(1)); });
+        if (value && value.substring(0, 1) === '=') {
+            Jexl.eval(ev.target.value.slice(1), {}, (err, res) => {
+                this.props.cell.update('value', () => {
+                    return res;
+                });
+            });
         }
     }
 };
