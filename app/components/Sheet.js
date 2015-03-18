@@ -41,9 +41,8 @@ class Sheet extends React.Component {
     }
 
     _cellSelectionHandler(cell, isMultiSelect) {
-        console.log('select');
-        var sheetData = this.props.sheetData;
-        var me = this;
+        let sheetData = this.props.sheetData;
+        let self = this;
 
         if (cell.get('isSelected')) {
             return;
@@ -58,7 +57,7 @@ class Sheet extends React.Component {
                 sheetData = sheetData.set('selectedCells', Immutable.Map());
             }
             sheetData = sheetData.setIn(['rows', cell.get('y'), cell.get('x'), 'isSelected'], true);
-            sheetData = sheetData.setIn(['selectedCells', this._getCellHash(cell)], cell);
+            sheetData = sheetData.setIn(['selectedCells', self._getCellHash(cell)], cell);
 
             return sheetData;
         });
@@ -66,8 +65,8 @@ class Sheet extends React.Component {
 
 
     _cellEditingHandler(cell) {
-        var sheetData = this.props.sheetData;
-        var me = this;
+        let sheetData = this.props.sheetData;
+        let self = this;
 
         sheetData.update(function(sheetData) {
             sheetData.get('editingCells').forEach(function(cell) {
@@ -76,7 +75,7 @@ class Sheet extends React.Component {
 
             sheetData = sheetData.set('isEditing', Immutable.Map());
             sheetData = sheetData.setIn(['rows', cell.get('y'), cell.get('x'), 'isEditing'], true);
-            sheetData = sheetData.setIn(['editingCells', this._getCellHash(cell)], cell);
+            sheetData = sheetData.setIn(['editingCells', self._getCellHash(cell)], cell);
             return sheetData;
         });
     }

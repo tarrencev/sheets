@@ -73,7 +73,7 @@ var Sheet = (function (_React$Component) {
             value: function _cellSelectionHandler(cell, isMultiSelect) {
                 console.log("select");
                 var sheetData = this.props.sheetData;
-                var me = this;
+                var self = this;
 
                 if (cell.get("isSelected")) {
                     return;
@@ -88,7 +88,7 @@ var Sheet = (function (_React$Component) {
                         sheetData = sheetData.set("selectedCells", Immutable.Map());
                     }
                     sheetData = sheetData.setIn(["rows", cell.get("y"), cell.get("x"), "isSelected"], true);
-                    sheetData = sheetData.setIn(["selectedCells", this._getCellHash(cell)], cell);
+                    sheetData = sheetData.setIn(["selectedCells", self._getCellHash(cell)], cell);
 
                     return sheetData;
                 });
@@ -97,7 +97,7 @@ var Sheet = (function (_React$Component) {
         _cellEditingHandler: {
             value: function _cellEditingHandler(cell) {
                 var sheetData = this.props.sheetData;
-                var me = this;
+                var self = this;
 
                 sheetData.update(function (sheetData) {
                     sheetData.get("editingCells").forEach(function (cell) {
@@ -106,7 +106,7 @@ var Sheet = (function (_React$Component) {
 
                     sheetData = sheetData.set("isEditing", Immutable.Map());
                     sheetData = sheetData.setIn(["rows", cell.get("y"), cell.get("x"), "isEditing"], true);
-                    sheetData = sheetData.setIn(["editingCells", this._getCellHash(cell)], cell);
+                    sheetData = sheetData.setIn(["editingCells", self._getCellHash(cell)], cell);
                     return sheetData;
                 });
             }
