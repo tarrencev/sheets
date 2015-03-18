@@ -6,12 +6,17 @@ var React = require('react');
 var Immutable = require('immutable');
 var PureRenderMixin = require('react/addons').PureRenderMixin;
 var Cell = require('./Cell.jsx');
+var RowCell = require('./RowCell.jsx');
 var Table = require('react-bootstrap/Table');
 var UtilsMixin = require('../mixins/UtilsMixin');
 
 var Sheet = React.createClass({
 
     mixins: [PureRenderMixin, UtilsMixin],
+
+    shouldComponentUpdate: function(nextProps) {
+        return !Immutable.is(this.props.sheetData, nextProps.sheetData);
+    },
 
     renderCell: function(cell) {
         return <Cell
@@ -23,7 +28,10 @@ var Sheet = React.createClass({
     },
 
     renderRow: function(cells, i) {
-        return (<tr key={i}>{cells.map(this.renderCell).toArray()}</tr>);
+        return (<tr key={i}>
+                    <RowCell value={i + 1}/>
+                    {cells.map(this.renderCell).toArray()}
+                </tr>);
     },
 
     render: function() {
@@ -37,10 +45,16 @@ var Sheet = React.createClass({
     _cellSelectionHandler: function(cell, isMultiSelect) {
         var sheetData = this.props.sheetData;
         var me = this;
+
+        if (cell.get('isSelected')) {
+            return;
+        }
+
         sheetData.update(function(sheetData) {
             if (!isMultiSelect) {
                 sheetData.get('selectedCells').forEach(function(cell) {
                     sheetData = sheetData.setIn(['rows', cell.get('y'), cell.get('x'), 'isSelected'], false);
+                    sheetData = sheetData.setIn(['rows', cell.get('y'), cell.get('x'), 'isEditing'], false);
                 });
                 sheetData = sheetData.set('selectedCells', Immutable.Map());
             }

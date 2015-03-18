@@ -1,5 +1,6 @@
 /** @jsx React.DOM */
 
+
 'use strict';
 
 var React = require('react');
@@ -15,9 +16,9 @@ module.exports = function(app) {
 
         var rows = [];
 
-        for (var y = 0; y < 1; y++) {
+        for (var y = 0; y < 20; y++) {
             var cells = [];
-            for(var x = 0; x < 2; x++) {
+            for(var x = 0; x < 10; x++) {
                 cells.push({
                     key: '' + y + x,
                     x: x,

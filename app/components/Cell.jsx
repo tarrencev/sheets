@@ -64,7 +64,6 @@ var SheetCell = React.createClass({
         var curClickDate = Date.now();
 
         if (this.props.cell.get('isSelected') && curClickDate - this.state.lastClickDate < DOUBLE_CLICK_WINDOW_MS) {
-            console.log('set editing');
             this.props.onCellEditing(this.props.cell);
         } else if (ev.metaKey) {
             this.props.onCellSelection(this.props.cell, true);
@@ -89,7 +88,8 @@ var SheetCell = React.createClass({
 
         var value = ev.target.value;
         if (value && value.substring(0,1) === '=') {
-            console.log('eval');
+            // @tvanas: Implement a safe way to execute client generated code
+            this.props.cell.update('value', function() { return eval(ev.target.value.slice(1)); });
         }
     }
 });

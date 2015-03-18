@@ -3,6 +3,7 @@
 'use strict';
 
 var React = require('react');
+var Immutable = require('immutable');
 var ButtonToolbar = require('react-bootstrap/ButtonToolbar');
 var ButtonGroup = require('react-bootstrap/ButtonGroup');
 var Button = require('react-bootstrap/Button');
@@ -11,6 +12,10 @@ var PureRenderMixin = require('react/addons').PureRenderMixin;
 var Toolbar = React.createClass({
 
     mixins: [PureRenderMixin],
+
+    shouldComponentUpdate: function(nextProps) {
+        return !Immutable.is(this.props.sheetData, nextProps.sheetData);
+    },
 
     render: function() {
         return (
