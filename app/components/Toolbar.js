@@ -32,18 +32,17 @@ class Toolbar extends React.Component {
     }
 
     _addStyle(delta) {
-        var me = this;
-        return function() {
-            me._updateSelectedCells(delta);
-        };
+        return () => {
+            this._updateSelectedCells(delta);
+        }.bind(this);
     }
 
     _updateSelectedCells(delta) {
-        var deltaKey = Object.keys(delta)[0];
-        var sheetData = this.props.sheetData;
+        let deltaKey = Object.keys(delta)[0];
+        let sheetData = this.props.sheetData;
 
-        sheetData.update(function(sheetData) {
-            sheetData.get('selectedCells').forEach(function(cell) {
+        sheetData.update(sheetData => {
+            sheetData.get('selectedCells').forEach(cell => {
                 sheetData = sheetData.setIn(['rows', cell.get('y'), cell.get('x'), deltaKey], delta[deltaKey]);
             });
 
