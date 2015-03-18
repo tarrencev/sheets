@@ -1,25 +1,27 @@
 'use strict';
 
-var React = require('react');
-var Immutable = require('immutable');
+import React from 'react';
+import Immutable from 'immutable';
+
 var DOUBLE_CLICK_WINDOW_MS = 500;
-var PureRenderMixin = require('react/addons').PureRenderMixin;
 
-var SheetCell = React.createClass({
+class SheetCell extends React.createClass {
 
-    mixins: [PureRenderMixin],
+    constructor(props) {
+        super(props);
+    }
 
-    getInitialState: function () {
+    getInitialState() {
         return {
             lastClickDate: 0
         };
-    },
+    }
 
-    shouldComponentUpdate: function(nextProps) {
+    shouldComponentUpdate(nextProps) {
         return !Immutable.is(this.props.cell, nextProps.cell);
-    },
+    }
 
-    render: function() {
+    render() {
         var isSelected = this.props.cell.get('isSelected');
         var isEditing = this.props.cell.get('isEditing');
 
@@ -56,9 +58,9 @@ var SheetCell = React.createClass({
                 />
             </td>
         );
-    },
+    }
 
-    _handleClick: function(ev) {
+    _handleClick(ev) {
         var curClickDate = Date.now();
 
         if (this.props.cell.get('isSelected') && curClickDate - this.state.lastClickDate < DOUBLE_CLICK_WINDOW_MS) {
@@ -72,13 +74,13 @@ var SheetCell = React.createClass({
         this.setState({
             lastClickDate: curClickDate
         });
-    },
+    }
 
-    _handleChange: function(ev) {
+    _handleChange(ev) {
         this.props.cell.update('value', function() { return ev.target.value; });
-    },
+    }
 
-    _handleKeyUp: function(ev) {
+    _handleKeyUp(ev) {
 
         if (ev.key !== 'Enter') {
             return;
@@ -90,6 +92,6 @@ var SheetCell = React.createClass({
             this.props.cell.update('value', function() { return eval(ev.target.value.slice(1)); });
         }
     }
-});
+};
 
 module.exports = SheetCell;

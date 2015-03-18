@@ -1,23 +1,24 @@
 'use strict';
 
-var React = require('react');
-var Immutable = require('immutable');
-var PureRenderMixin = require('react/addons').PureRenderMixin;
+import React from 'react';
+import Immutable from 'immutable';
 
-var RowCell = React.createClass({
+class RowCell extends React.createClass {
 
-    mixins: [PureRenderMixin],
+    constructor(props) {
+        super(props);
+    }
 
-    shouldComponentUpdate: function(nextProps) {
+    shouldComponentUpdate(nextProps) {
         return !Immutable.is(this.props.cell, nextProps.cell);
-    },
+    }
 
-    render: function() {
+    render() {
 
         return (
             <td className='row-cell'>{this.props.value}</td>
         );
     }
-});
+};
 
 module.exports = RowCell;
