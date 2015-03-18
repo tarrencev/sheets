@@ -3,7 +3,7 @@
 import React from 'react';
 import Immutable from 'immutable';
 
-var DOUBLE_CLICK_WINDOW_MS = 500;
+const DOUBLE_CLICK_WINDOW_MS = 500;
 
 class SheetCell extends React.createClass {
 
