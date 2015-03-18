@@ -15,7 +15,7 @@
     "minor": "node Makefile.js minor",
     "major": "node Makefile.js major",
     "watch": "watchify app/app.js -o public/js/bundle.js -v",
-    "browserify": "babel app | uglifyjs > public/js/bundle.js",
+    "browserify": "babel app | browserify | uglifyjs > public/js/bundle.js",
     "build": "npm run browserify ",
     "start": "npm run watch & nodemon server.js"
   },
@@ -26,7 +26,6 @@
     "lib"
   ],
   "dependencies": {
-    "babel": "^4.7.13",
     "express": "~4.9.3",
     "express-handlebars": "~1.1.0",
     "immutable": "^3.6.2",

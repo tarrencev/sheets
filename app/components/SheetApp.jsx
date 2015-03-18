@@ -1,38 +1,39 @@
 'use strict';
 
-var React = require('react');
-var Immutable = require('immutable');
-var History = require('immutable-history');
-var Sheet = require('./Sheet.jsx');
-var Toolbar = require('./Toolbar.jsx');
-var PureRenderMixin = require('react/addons').PureRenderMixin;
+import React from 'react';
+import Immutable from 'immutable';
+import History from 'immutable-history';
+import Sheet from './Sheet.jsx';
+import Toolbar from './Toolbar.jsx';
 
-var SheetApp = React.createClass({
+class SheetApp extends React.Component {
 
-    mixins: [PureRenderMixin],
+    constructor(props) {
+        super(props)
+    }
 
-    shouldComponentUpdate: function(nextProps, nextState) {
+    shouldComponentUpdate(nextProps, nextState) {
         return !(Immutable.is(this.props.sheetData, nextProps.sheetData) &&
                     Immutable.is(this.state.sheetData, nextState.sheetData));
-    },
+    }
 
-    componentWillMount: function() {
+    componentWillMount() {
         this.setState({
-            history: new History(this.props.sheetData, this._cursorChange),
+            history: new History(this.props.sheetData, this._cursorChange.bind(this)),
         });
-    },
+    }
 
-    _cursorChange: function(cursor) {
+    _cursorChange(cursor) {
         this.setState({
             sheetData: cursor
         });
-    },
+    }
 
-    _undo: function() {
+    _undo() {
         this.state.history.undo();
-    },
+    }
 
-    render: function() {
+    render() {
 
         return (
             <div>
@@ -48,6 +49,6 @@ var SheetApp = React.createClass({
             </div>
         );
     }
-});
+};
 
 module.exports = SheetApp;
