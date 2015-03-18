@@ -14,7 +14,7 @@
     "patch": "node Makefile.js patch",
     "minor": "node Makefile.js minor",
     "major": "node Makefile.js major",
-    "watch": "babel app --out-dir babeledapp & watchify babeledapp/app.js -o public/js/bundle.js -v",
+    "watch": "babel app --out-dir babeledapp | watchify babeledapp/app.js -o public/js/bundle.js -v",
     "browserify": "babel app | browserify | uglifyjs > public/js/bundle.js",
     "build": "npm run browserify",
     "start": "npm run watch & nodemon server.js"

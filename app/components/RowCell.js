@@ -3,7 +3,7 @@
 import React from 'react';
 import Immutable from 'immutable';
 
-class RowCell extends React.createClass {
+class RowCell extends React.Component {
 
     constructor(props) {
         super(props);
@@ -14,7 +14,6 @@ class RowCell extends React.createClass {
     }
 
     render() {
-
         return (
             <td className='row-cell'>{this.props.value}</td>
         );

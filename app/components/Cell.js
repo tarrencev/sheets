@@ -5,16 +5,14 @@ import Immutable from 'immutable';
 
 const DOUBLE_CLICK_WINDOW_MS = 500;
 
-class SheetCell extends React.createClass {
+class SheetCell extends React.Component {
 
     constructor(props) {
         super(props);
-    }
 
-    getInitialState() {
-        return {
-            lastClickDate: 0
-        };
+        this.state = {
+            astClickDate: 0
+        }
     }
 
     shouldComponentUpdate(nextProps) {
@@ -22,10 +20,10 @@ class SheetCell extends React.createClass {
     }
 
     render() {
-        var isSelected = this.props.cell.get('isSelected');
-        var isEditing = this.props.cell.get('isEditing');
+        let isSelected = this.props.cell.get('isSelected');
+        let isEditing = this.props.cell.get('isEditing');
 
-        var cellStyle = {
+        let cellStyle = {
             border: isSelected ? '2px solid #7BA0FF' : 'none',
             borderRight: isSelected ? '2px solid #7BA0FF' : '1px solid #ddd',
             borderBottom: isSelected ? '2px solid #7BA0FF' : '1px solid #ddd',
@@ -35,7 +33,7 @@ class SheetCell extends React.createClass {
             paddingRight: isSelected ? 0 : 1
         };
 
-        var inputStyle = {
+        let inputStyle = {
             fontWeight: this.props.cell.get('fontWeight'),
             textAlign: this.props.cell.get('textAlign'),
             fontStyle: this.props.cell.get('fontStyle'),
@@ -46,22 +44,21 @@ class SheetCell extends React.createClass {
             <td
                 className='cell'
                 style={cellStyle}
-                onClick={this._handleClick}
-                onBlur={this._handleBlur}
+                onClick={this._handleClick.bind(this)}
             >
                 <input type='value'
                     value={this.props.cell.get('value')}
                     readOnly={!isEditing}
                     style={inputStyle}
-                    onKeyUp={this._handleKeyUp}
-                    onChange={this._handleChange}
+                    onKeyUp={this._handleKeyUp.bind(this)}
+                    onChange={this._handleChange.bind(this)}
                 />
             </td>
         );
     }
 
     _handleClick(ev) {
-        var curClickDate = Date.now();
+        let curClickDate = Date.now();
 
         if (this.props.cell.get('isSelected') && curClickDate - this.state.lastClickDate < DOUBLE_CLICK_WINDOW_MS) {
             this.props.onCellEditing(this.props.cell);
@@ -86,7 +83,7 @@ class SheetCell extends React.createClass {
             return;
         }
 
-        var value = ev.target.value;
+        let value = ev.target.value;
         if (value && value.substring(0,1) === '=') {
             // @tvanas: Implement a safe way to execute client generated code
             this.props.cell.update('value', function() { return eval(ev.target.value.slice(1)); });
