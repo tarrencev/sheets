@@ -1,6 +1,6 @@
 # Sheets
 
-PoC of Spreadsheet implementation using React.js and Immutable.js. Uses cursors to maintain a global state. Inspired by [David Nolens The Functional Final Frontier](http://www.infoq.com/presentations/om-clojurescript-facebook-react)
+Spreadsheet implementation using ES6, React.js and Immutable.js. Transpiled with Babel. Uses cursors to maintain a global state. Inspired by [David Nolens The Functional Final Frontier](http://www.infoq.com/presentations/om-clojurescript-facebook-react)
 
 ### Basic usage
 
