@@ -12,12 +12,35 @@ class SheetCell extends React.Component {
         super(props);
 
         this.state = {
-            astClickDate: 0
+            astClickDate: 0,
+            value: props.cell.get('value')
         }
     }
 
-    shouldComponentUpdate(nextProps) {
-        return !Immutable.is(this.props.cell, nextProps.cell);
+    componentWillReceiveProps(nextProps) {
+        let wasEditing = this.props.cell.get('isEditing');
+        let isEditing = nextProps.cell.get('isEditing');
+        let value = nextProps.cell.get('value');
+
+        if (wasEditing && !isEditing) {
+            nextProps.cell.update('value', () => this.state.value);
+        } else if (isEditing) {
+            this.setState({
+                value: value
+            });
+        } else if (value.substring(0, 1) === '=') {
+            Jexl.eval(value.slice(1), {}, (err, res) => {
+                this.setState({
+                    value: res || err
+                });
+            }.bind(this));
+        }
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return !Immutable.is(this.props.cell, nextProps.cell) ||
+                this.state.value === nextState.value ||
+                nextProps.cell.get('value') !== nextState.value;
     }
 
     render() {
@@ -45,20 +68,21 @@ class SheetCell extends React.Component {
             <td
                 className='cell'
                 style={cellStyle}
-                onClick={this._handleClick.bind(this)}
+                onClick={this.handleClick.bind(this)}
             >
                 <input type='value'
-                    value={this.props.cell.get('value')}
+                    ref='input'
+                    value={this.state.value}
                     readOnly={!isEditing}
                     style={inputStyle}
-                    onKeyUp={this._handleKeyUp.bind(this)}
-                    onChange={this._handleChange.bind(this)}
+                    onKeyUp={this.handleKeyUp.bind(this)}
+                    onChange={this.handleChange.bind(this)}
                 />
             </td>
         );
     }
 
-    _handleClick(ev) {
+    handleClick(ev) {
         let curClickDate = Date.now();
 
         if (this.props.cell.get('isSelected') && curClickDate - this.state.lastClickDate < DOUBLE_CLICK_WINDOW_MS) {
@@ -74,24 +98,19 @@ class SheetCell extends React.Component {
         });
     }
 
-    _handleChange(ev) {
-        this.props.cell.update('value', function() { return ev.target.value; });
+    handleChange(ev) {
+        this.setState({
+            value: ev.target.value
+        });
     }
 
-    _handleKeyUp(ev) {
+    handleKeyUp(ev) {
 
         if (ev.key !== 'Enter') {
             return;
         }
 
-        let value = ev.target.value;
-        if (value && value.substring(0, 1) === '=') {
-            Jexl.eval(ev.target.value.slice(1), {}, (err, res) => {
-                this.props.cell.update('value', () => {
-                    return res;
-                });
-            });
-        }
+        this.props.cell.update('isEditing', () => false);
     }
 };
 
